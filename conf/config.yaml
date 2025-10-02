@@ -1,0 +1,31 @@
+env: dev
+job_name: titanic_ingest
+io:
+input:
+format: csv
+options:
+header: "true"
+inferSchema: "true"
+path: s3://glue-etl-09142025/raw_data/titanic.csv
+output:
+format: parquet
+mode: overwrite
+partitionBy: []
+path: s3://glue-etl-09142025/enrich_data/titanic_results.parquet
+catalog:
+register_table: false
+database: default
+table: titanic_results
+dq:
+enabled: false
+ruleset_s3_uri: s3://my-bucket/dq/rulesets/titanic.json
+metrics:
+namespace: GlueFramework
+dimensions:
+- Name: Application
+Value: Titanics
+enabled: true
+runtime:
+shuffle_partitions: 200
+coalesce_output: 0
+bookmarks: false
